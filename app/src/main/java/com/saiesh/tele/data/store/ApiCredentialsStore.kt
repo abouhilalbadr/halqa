@@ -22,6 +22,11 @@ class ApiCredentialsStore(
             .apply()
     }
 
+    /** Written synchronously: a rejected key is cleared right before the app restarts. */
+    fun clear() {
+        prefs.edit().clear().commit()
+    }
+
     companion object {
         private const val PREFS_NAME = "telegram_api_credentials"
         private const val KEY_API_ID = "api_id"

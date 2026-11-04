@@ -20,12 +20,15 @@ Halqa is based on [Tele](https://github.com/saieshshirodkar/Tele) by Syndicate, 
 
 ## Screens
 
-### Sign in, or skip Telegram
+### Set up on first launch
 
-Scan the code with Telegram on your phone (Settings › Devices › Link Desktop Device). If you only want videos from
-your computer, choose **Continue without Telegram**.
+A short guide asks where your videos are: **Telegram**, **My computer** or **Both**, then walks through each step
+with a progress bar. For Telegram it shows how to get your own API key on my.telegram.org, lets you type the key
+with the remote or paste it from your phone (scan the code on the TV), then signs you in with a QR code. For a
+computer it lists what you need, how to share the folder on a Mac or Windows, and connects. The guide is in English
+and Arabic; switch with the button in the top corner.
 
-<img src="docs/images/signin.jpg" alt="Sign-in screen with a QR code and a Continue without Telegram button" width="800">
+<img src="docs/images/welcome.jpg" alt="Welcome screen with the Halqa logo, a language switch and Telegram, My computer and Both choices" width="800">
 
 ### Add your computer
 
@@ -48,7 +51,7 @@ so you can stop and come back later.
 
 <img src="docs/images/player.jpg" alt="Player controls over a video frame" width="800">
 
-<sub>The screens above are mock-ups with made-up titles; the artwork is from Pixabay.</sub>
+<sub>Apart from the welcome screen, the screens above are mock-ups with made-up titles; the artwork is from Pixabay.</sub>
 
 ## What it does
 
@@ -112,7 +115,8 @@ Halqa/
    TELEGRAM_API_ID=your_api_id
    TELEGRAM_API_HASH=your_api_hash
    ```
-   You can leave the keys out; the app then asks for them on first launch and stores them on the TV.
+   You can leave the keys out; the setup guide then asks for them on first launch and stores them on the TV.
+   Build without keys when you share the APK with others, so each person uses their own.
 3. Build with JDK 17 and install:
    ```
    ./gradlew :app:assembleDebug

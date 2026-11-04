@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Setup, computer: sign in to the computer. The fields on the left, computers found on the network on the
+     right; the Connect button sits in the guide's button row. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Halqa.SetupTitle"
+            android:text="@string/setup_connect_title" />
+
+        <TextView
+            style="@style/Halqa.SetupSubtitle"
+            android:text="@string/setup_connect_subtitle" />
+
+        <EditText
+            android:id="@+id/mac_host_input"
+            style="@style/Halqa.MacInput"
+            android:layout_width="380dp"
+            android:layout_marginTop="20dp"
+            android:hint="@string/mac_host_hint"
+            android:inputType="textUri"
+            android:textDirection="ltr" />
+
+        <EditText
+            android:id="@+id/mac_user_input"
+            style="@style/Halqa.MacInput"
+            android:layout_width="380dp"
+            android:hint="@string/mac_user_hint"
+            android:inputType="textNoSuggestions" />
+
+        <EditText
+            android:id="@+id/mac_password_input"
+            style="@style/Halqa.MacInput"
+            android:layout_width="380dp"
+            android:fontFamily="sans-serif"
+            android:hint="@string/mac_password_hint"
+            android:imeOptions="actionDone|flagNoExtractUi"
+            android:inputType="textPassword"
+            android:textAlignment="viewStart" />
+
+        <!-- The guide asked for a folder named Halqa, so the folder name isn't asked again here. -->
+        <EditText
+            android:id="@+id/mac_share_input"
+            style="@style/Halqa.MacInput"
+            android:text="@string/mac_share_default"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/mac_error"
+            style="@style/Halqa.SetupSubtitle"
+            android:layout_marginTop="10dp"
+            android:textColor="#FF8A80"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:background="@drawable/mac_card_background"
+        android:orientation="vertical"
+        android:padding="18dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mac_found_title"
+            android:textColor="#B6BCC6"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/mac_found_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/mac_searching"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/mac_searching_dot"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/waiting_dot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/mac_searching"
+                android:textColor="#B6BCC6"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

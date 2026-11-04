@@ -11,4 +11,6 @@ data class AuthUiState(
     val message: String? = null,
     val isLoading: Boolean = false,
     val accountName: String? = null,
+    /** Telegram refused the API ID and hash; they were forgotten so the user can enter them again. */
+    val keysRejected: Boolean = false,
 )

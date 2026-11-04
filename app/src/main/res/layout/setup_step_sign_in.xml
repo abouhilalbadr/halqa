@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Setup, Telegram: sign in by scanning a code with the Telegram app. If Telegram asks for a phone number,
+     login code or two-step password instead, one field takes it and Next sends it. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Halqa.SetupTitle"
+            android:text="@string/setup_sign_in_title" />
+
+        <LinearLayout
+            android:id="@+id/setup_qr_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:gravity="top"
+                android:orientation="horizontal">
+    
+                <TextView
+                    style="@style/Halqa.StepNumber"
+                    android:text="1" />
+    
+                <TextView
+                    style="@style/Halqa.Step"
+                    android:layout_marginTop="@dimen/step_text_offset"
+                    android:text="@string/auth_qr_step_1"
+                    android:textAlignment="viewStart"
+                    android:textSize="17sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="top"
+                android:orientation="horizontal">
+    
+                <TextView
+                    style="@style/Halqa.StepNumber"
+                    android:text="2" />
+    
+                <TextView
+                    style="@style/Halqa.Step"
+                    android:layout_marginTop="@dimen/step_text_offset"
+                    android:text="@string/auth_qr_step_2"
+                    android:textAlignment="viewStart"
+                    android:textSize="17sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="top"
+                android:orientation="horizontal">
+    
+                <TextView
+                    style="@style/Halqa.StepNumber"
+                    android:text="3" />
+    
+                <TextView
+                    style="@style/Halqa.Step"
+                    android:layout_marginTop="@dimen/step_text_offset"
+                    android:text="@string/auth_qr_step_3"
+                    android:textAlignment="viewStart"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/setup_waiting_dot"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/waiting_dot" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/auth_qr_waiting"
+                    android:textColor="#B6BCC6"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/setup_signed_in"
+            style="@style/Halqa.SetupSubtitle"
+            android:layout_marginTop="16dp"
+            android:drawableStart="@drawable/ic_check_circle"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:textColor="#FFFFFF"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/setup_sign_in_input"
+            style="@style/Halqa.MacInput"
+            android:layout_width="360dp"
+            android:layout_marginTop="22dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/setup_sign_in_message"
+            style="@style/Halqa.SetupSubtitle"
+            android:layout_marginTop="12dp"
+            android:textColor="#FF8A80"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <com.saiesh.tele.presentation.widget.SpinnerView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/setup_sign_in_loading"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:spinnerColor="#FFFFFF" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/setup_sign_in_qr"
+        style="@style/Halqa.SetupQrCard"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_marginStart="40dp"
+        android:contentDescription="@string/auth_qr_description"
+        android:visibility="invisible" />
+</LinearLayout>

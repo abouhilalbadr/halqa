@@ -92,4 +92,60 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <!-- Setup guide -->
+    <style name="Halqa.SetupTitle" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Halqa.SetupSubtitle" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textColor">#B6BCC6</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Halqa.SetupChoice" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">6dp</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:background">@drawable/setup_choice_background</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:drawableTint">#FFFFFF</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">18dp</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingBottom">11dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Halqa.SetupNext" parent="Halqa.Pill">
+        <item name="android:minWidth">120dp</item>
+        <item name="android:background">@drawable/button_connect_background</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="Halqa.SetupBack" parent="Halqa.Pill">
+        <item name="android:minWidth">100dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:background">@drawable/button_back_background</item>
+    </style>
+
+    <style name="Halqa.SetupQrCard" parent="">
+        <item name="android:background">@drawable/qr_card_background</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
 </resources>

@@ -32,6 +32,7 @@ class AuthViewModel(
                         message = state.message,
                         isLoading = state.isLoading,
                         accountName = state.accountName,
+                        keysRejected = state.keysRejected,
                     )
                 }
             }
@@ -91,6 +92,17 @@ class AuthViewModel(
             return
         }
         authManager.submitPassword(password)
+    }
+
+    fun hasKeys(): Boolean = authManager.hasKeys()
+
+    /** Fills in and submits keys that arrived together, typed on the TV or pasted on a phone. */
+    fun submitApiKeys(
+        apiId: String,
+        apiHash: String,
+    ) {
+        _uiState.update { it.copy(apiId = apiId, apiHash = apiHash, message = null) }
+        submitApiKeys()
     }
 
     fun logOut() = authManager.logOut()

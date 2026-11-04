@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Setup, Telegram: type the API ID and hash with the remote, or scan the code to paste them on a phone. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Halqa.SetupTitle"
+            android:text="@string/setup_enter_key_title" />
+
+        <TextView
+            style="@style/Halqa.SetupSubtitle"
+            android:text="@string/setup_enter_key_subtitle" />
+
+        <EditText
+            android:id="@+id/setup_api_id"
+            style="@style/Halqa.MacInput"
+            android:layout_width="380dp"
+            android:layout_marginTop="22dp"
+            android:hint="@string/setup_api_id_hint"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="12"
+            android:textDirection="ltr" />
+
+        <EditText
+            android:id="@+id/setup_api_hash"
+            style="@style/Halqa.MacInput"
+            android:layout_width="380dp"
+            android:hint="@string/setup_api_hash_hint"
+            android:imeOptions="actionDone|flagNoExtractUi"
+            android:importantForAutofill="no"
+            android:inputType="textNoSuggestions|textVisiblePassword"
+            android:maxLength="32"
+            android:textDirection="ltr" />
+
+        <TextView
+            android:id="@+id/setup_key_error"
+            style="@style/Halqa.SetupSubtitle"
+            android:layout_marginTop="12dp"
+            android:textColor="#FF8A80"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setup_phone_card"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/setup_phone_card_background"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <ImageView
+            android:id="@+id/setup_phone_qr"
+            style="@style/Halqa.SetupQrCard"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:contentDescription="@string/setup_enter_key_phone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/setup_enter_key_phone"
+            android:textColor="#B6BCC6"
+            android:textSize="13sp" />
+    </LinearLayout>
+</LinearLayout>

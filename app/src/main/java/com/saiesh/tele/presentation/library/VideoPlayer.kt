@@ -30,7 +30,7 @@ object VideoPlayer {
         episode: Episode,
         chosen: EpisodeVariant,
     ) {
-        val ordered = series.episodes.sortedWith(compareBy({ it.number == null }, { it.number }, { it.latestDate }))
+        val ordered = inOrder(series)
         val queue =
             ordered.mapIndexed { i, ep ->
                 val variant = if (ep.key == episode.key) chosen else ep.variants.firstOrNull { it.quality == chosen.quality } ?: ep.variants.first()
@@ -45,13 +45,20 @@ object VideoPlayer {
         PlayerActivity.start(context, queue, ordered.indexOfFirst { it.key == episode.key }.coerceAtLeast(0))
     }
 
+    /** Episodes by number, then the ones without a number by posting date. */
+    fun inOrder(series: Series): List<Episode> =
+        series.episodes.sortedWith(compareBy({ it.number == null }, { it.number }, { it.latestDate }))
+
+    /** The key the player saves this video's position under. */
+    fun playbackKey(item: MediaItem): String = "tg:${item.chatId}:${item.messageId}"
+
     private fun playbackItem(
         item: MediaItem,
         title: String,
         subtitle: String,
         label: String,
     ) = PlaybackItem(
-        key = "tg:${item.chatId}:${item.messageId}",
+        key = playbackKey(item),
         title = title,
         subtitle = subtitle,
         episodeLabel = label,

@@ -1,63 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- A Telegram series, laid out like a computer title's page. Telegram only has small landscape
+     thumbnails, so the left column opens with a 16:9 cover instead of a tall poster. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#262A30"
     android:clipChildren="false"
-    android:orientation="vertical"
-    android:paddingTop="30dp">
+    android:orientation="horizontal"
+    android:paddingStart="48dp"
+    android:paddingTop="36dp"
+    android:paddingEnd="48dp"
+    android:paddingBottom="24dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
-        android:baselineAligned="true"
-        android:orientation="horizontal">
+        android:layout_width="@dimen/series_side_width"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/series_cover_frame"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/series_cover_height"
+            android:background="@drawable/video_card_background">
+
+            <ImageView
+                android:id="@+id/series_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:importantForAccessibility="no"
+                android:scaleType="centerCrop" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/series_title"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="14dp"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textAlignment="textStart"
             android:textColor="#FFFFFF"
             android:textDirection="firstStrong"
-            android:textSize="28sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/series_count"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:textColor="#C3C8D1"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAlignment="textStart"
+            android:textColor="#B6BCC6"
             android:textSize="14sp" />
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/series_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/series_loading_more"
-        android:textColor="#C3C8D1"
-        android:textSize="13sp"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/series_play"
+            style="@style/Halqa.Pill"
+            android:layout_width="match_parent"
+            android:layout_marginTop="14dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp" />
+
+        <TextView
+            android:id="@+id/series_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/series_loading_more"
+            android:textAlignment="textStart"
+            android:textColor="#C3C8D1"
+            android:textSize="13sp"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <androidx.leanback.widget.VerticalGridView
         android:id="@+id/series_grid"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/series_grid_gap"
         android:layout_weight="1"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:paddingStart="48dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="48dp"
+        android:paddingTop="6dp"
         android:paddingBottom="24dp" />
 </LinearLayout>

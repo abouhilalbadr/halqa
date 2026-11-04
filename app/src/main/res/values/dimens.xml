@@ -2,4 +2,8 @@
 <resources>
     <!-- Drops a 17sp step line so it sits centred on its 30dp number circle. -->
     <dimen name="step_text_offset">3dp</dimen>
+    <!-- Telegram series page: a 16:9 cover column, then the episode grid. -->
+    <dimen name="series_side_width">250dp</dimen>
+    <dimen name="series_cover_height">141dp</dimen>
+    <dimen name="series_grid_gap">32dp</dimen>
 </resources>

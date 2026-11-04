@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Drops a 17sp step line so it sits centred on its 30dp number circle. -->
+    <dimen name="step_text_offset">3dp</dimen>
+</resources>

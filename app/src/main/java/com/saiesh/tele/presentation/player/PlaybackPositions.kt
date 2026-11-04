@@ -22,6 +22,20 @@ class PlaybackPositions(
         return duration > 0 && duration - prefs.getLong(positionKey(key), 0) < END_MARGIN_MS
     }
 
+    /** Whether [key] was watched past the first seconds or to the end. */
+    fun hasProgress(key: String): Boolean = prefs.getLong(positionKey(key), 0) >= MIN_RESUME_MS || isWatched(key)
+
+    /** How far into [key] playback stopped, from 0 to 1, or null when its length isn't known yet. */
+    fun fraction(key: String): Float? {
+        val duration = prefs.getLong(durationKey(key), 0)
+        if (duration <= 0) return null
+        return (prefs.getLong(positionKey(key), 0).toFloat() / duration).coerceIn(0f, 1f)
+    }
+
+    fun positionMs(key: String): Long = prefs.getLong(positionKey(key), 0)
+
+    fun durationMs(key: String): Long = prefs.getLong(durationKey(key), 0)
+
     fun save(
         key: String,
         positionMs: Long,

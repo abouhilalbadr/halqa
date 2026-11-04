@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The main action on the Add your computer screen: Halqa orange, with a white outline when focused. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false">
+        <shape><solid android:color="#7A3A17" /><corners android:radius="10dp" /></shape>
+    </item>
+    <item android:state_focused="true">
+        <shape><solid android:color="#F26419" /><stroke android:width="3dp" android:color="#FFFFFF" /><corners android:radius="10dp" /></shape>
+    </item>
+    <item>
+        <shape><solid android:color="#F26419" /><corners android:radius="10dp" /></shape>
+    </item>
+</selector>

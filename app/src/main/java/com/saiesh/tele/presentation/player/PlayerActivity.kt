@@ -30,6 +30,8 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
 import com.saiesh.tele.R
+import com.saiesh.tele.presentation.text.ArabicText
+import com.saiesh.tele.core.mac.MacAwareDataSource
 import com.saiesh.tele.core.stream.LocalStreamServer
 import com.saiesh.tele.domain.model.PlaybackItem
 
@@ -45,6 +47,12 @@ class PlayerActivity : FragmentActivity() {
     private lateinit var queue: List<PlaybackItem>
     private var index = 0
     private var nextOffered = false
+
+    /**
+     * True from loading a video until its first picture is on screen. On this TV the player can report
+     * "ready" while the decoder is still warming up, so buffering alone would hide the spinner too early.
+     */
+    private var waitingForPicture = true
     private var lastSavedAt = 0L
 
     private val handler = Handler(Looper.getMainLooper())
@@ -116,7 +124,7 @@ class PlayerActivity : FragmentActivity() {
         player =
             ExoPlayer
                 .Builder(this)
-                .setMediaSourceFactory(DefaultMediaSourceFactory(DefaultDataSource.Factory(this, httpFactory)))
+                .setMediaSourceFactory(DefaultMediaSourceFactory(MacAwareDataSource.Factory(DefaultDataSource.Factory(this, httpFactory))))
                 .setAudioAttributes(AudioAttributes.DEFAULT, true)
                 .build()
         player.addListener(listener)
@@ -155,7 +163,7 @@ class PlayerActivity : FragmentActivity() {
     private val listener =
         object : Player.Listener {
             override fun onPlaybackStateChanged(state: Int) {
-                loading.visibility = if (state == Player.STATE_BUFFERING) View.VISIBLE else View.GONE
+                updateLoading()
                 if (state == Player.STATE_ENDED) {
                     saveProgress(finished = true)
                     if (index < queue.lastIndex) playAt(index + 1) else finish()
@@ -169,13 +177,25 @@ class PlayerActivity : FragmentActivity() {
                 if (isPlaying) scheduleHide() else if (player.playbackState == Player.STATE_READY) showControls(autoHide = false)
             }
 
+            override fun onRenderedFirstFrame() {
+                waitingForPicture = false
+                updateLoading()
+            }
+
             override fun onPlayerError(e: PlaybackException) {
                 Log.e(TAG, "Playback failed", e)
+                waitingForPicture = false
                 loading.visibility = View.GONE
                 hideControls()
                 error.visibility = View.VISIBLE
             }
         }
+
+    private fun updateLoading() {
+        val failed = error.visibility == View.VISIBLE
+        val busy = waitingForPicture || player.playbackState == Player.STATE_BUFFERING
+        loading.visibility = if (busy && !failed) View.VISIBLE else View.GONE
+    }
 
     private fun playAt(newIndex: Int) {
         if (newIndex !in queue.indices) return
@@ -184,16 +204,19 @@ class PlayerActivity : FragmentActivity() {
         nextOffered = false
         val item = queue[index]
         val uri = item.telegramFileId?.let { LocalStreamServer.urlFor(it) } ?: item.url
-        title.text = item.title
-        subtitle.text = item.subtitle
+        ArabicText.setText(title, item.title)
+        ArabicText.setText(subtitle, item.subtitle)
         next.visibility = if (index < queue.lastIndex) View.VISIBLE else View.GONE
         episodes.visibility = if (queue.size > 1) View.VISIBLE else View.GONE
         hideEpisodePanel()
         error.visibility = View.GONE
         if (uri == null) {
             error.visibility = View.VISIBLE
+            loading.visibility = View.GONE
             return
         }
+        waitingForPicture = true
+        updateLoading()
         player.setMediaItem(MediaItem.fromUri(uri), positions.resumePositionMs(item.key))
         player.prepare()
         player.play()

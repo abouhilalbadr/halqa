@@ -1,0 +1,13 @@
+<!-- Outline apple from Tabler Icons (MIT), marking the Mac sharing steps. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="15dp"
+    android:height="15dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M8.286,7.008C5.07,7.008 4,10.238 4,12.928C4,16.157 6.143,21 8.286,21C9.451,20.95 10.085,20.462 11.5,20.462C12.906,20.462 13.107,21 14.714,21C16.321,21 19,17.771 19,15.619C18.97,15.608 16.351,15.185 16.321,12.389C16.301,10.054 18.91,9.21 19,9.161C17.904,7.555 15.838,7.048 15.25,7.008C13.715,6.888 12.218,8.085 11.5,8.085C10.771,8.085 9.464,7.008 8.286,7.008ZM12,4A2,2 0,0 0,14 2A2,2 0,0 0,12 4"
+        android:strokeWidth="2"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

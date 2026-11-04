@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.saiesh.tele.R
+import com.saiesh.tele.presentation.text.ArabicText
 import com.saiesh.tele.domain.model.Episode
 import com.saiesh.tele.domain.model.MediaItem
 import com.saiesh.tele.domain.model.Series
@@ -45,7 +46,7 @@ class QualitySheetFragment : DialogFragment(R.layout.dialog_quality) {
             .mapNotNull { BundleCompat.getSerializable(it, ARG_ITEM, MediaItem::class.java) }
 
         view.findViewById<View>(R.id.quality_overlay).setOnClickListener { dismiss() }
-        view.findViewById<TextView>(R.id.quality_title).text = args.getString(ARG_HEADING)
+        ArabicText.setText(view.findViewById(R.id.quality_title), args.getString(ARG_HEADING))
         view.findViewById<TextView>(R.id.quality_subtitle).text = args.getString(ARG_SUBTITLE)
 
         val buttons = view.findViewById<LinearLayout>(R.id.quality_buttons)

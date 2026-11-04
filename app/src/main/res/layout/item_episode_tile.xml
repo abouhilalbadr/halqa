@@ -35,7 +35,7 @@
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:maxLines="2"
-            android:textAlignment="viewStart"
+            android:textAlignment="textStart"
             android:textColor="#FFFFFF"
             android:shadowColor="#99000000"
             android:shadowRadius="6"

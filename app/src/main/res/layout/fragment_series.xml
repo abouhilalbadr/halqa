@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAlignment="viewStart"
+            android:textAlignment="textStart"
             android:textColor="#FFFFFF"
             android:textDirection="firstStrong"
             android:textSize="28sp"

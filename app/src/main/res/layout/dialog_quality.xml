@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textAlignment="viewStart"
+                android:textAlignment="textStart"
                 android:textColor="#FFFFFF"
                 android:textDirection="firstStrong"
                 android:textSize="18sp"

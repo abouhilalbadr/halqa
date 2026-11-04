@@ -7,7 +7,6 @@ import android.view.animation.Animation
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -16,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.saiesh.tele.R
+import com.saiesh.tele.core.mac.MacSettings
 import com.saiesh.tele.domain.model.AuthStep
 import kotlinx.coroutines.launch
 
@@ -28,7 +28,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     ) {
         val title = view.findViewById<TextView>(R.id.auth_title)
         val message = view.findViewById<TextView>(R.id.auth_message)
-        val progress = view.findViewById<ProgressBar>(R.id.auth_progress)
+        val progress = view.findViewById<View>(R.id.auth_progress)
         val apiIdInput = view.findViewById<EditText>(R.id.auth_api_id_input)
         val apiHashInput = view.findViewById<EditText>(R.id.auth_api_hash_input)
         val phoneInput = view.findViewById<EditText>(R.id.auth_phone_input)
@@ -46,6 +46,9 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             },
         )
         var shownQrLink: String? = null
+        // Halqa also plays videos from a Mac, so Telegram can be skipped and signed in to later from home.
+        val skip = view.findViewById<View>(R.id.auth_skip)
+        skip.setOnClickListener { MacSettings.setTelegramSkipped(true) }
 
         apiIdInput.addTextChangedListener { viewModel.onApiIdChange(it?.toString().orEmpty()) }
         apiHashInput.addTextChangedListener { viewModel.onApiHashChange(it?.toString().orEmpty()) }
@@ -80,6 +83,8 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                     }
                     qrCard.visibility = if (showQr) View.VISIBLE else View.GONE
                     qrSteps.visibility = if (showQr) View.VISIBLE else View.GONE
+                    // The QR step has nothing else to focus, so the remote lands on "Continue without Telegram".
+                    if (showQr && view.findFocus() == null) skip.requestFocus()
 
                     message.text = state.message.orEmpty()
                     message.visibility = if (state.message.isNullOrBlank()) View.GONE else View.VISIBLE

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Forget this computer: a quiet red tint, since it removes the saved login; white outline when focused. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape><solid android:color="#4A2B2E" /><stroke android:width="3dp" android:color="#FFFFFF" /><corners android:radius="10dp" /></shape>
+    </item>
+    <item>
+        <shape><solid android:color="#3A2A2D" /><corners android:radius="10dp" /></shape>
+    </item>
+</selector>

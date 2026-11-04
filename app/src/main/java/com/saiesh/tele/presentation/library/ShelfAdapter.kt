@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.saiesh.tele.R
+import com.saiesh.tele.presentation.text.ArabicText
 import com.saiesh.tele.domain.model.MediaItem
 
 /** One card on a home-screen row: a thumbnail, an optional corner badge and a name underneath. */
@@ -78,7 +79,7 @@ class ShelfAdapter(
             }
             badge.text = card.badge
             badge.visibility = if (card.badge.isNullOrEmpty()) View.GONE else View.VISIBLE
-            label.text = card.label
+            ArabicText.setText(label, card.label)
             Thumbnails.load(image, card.thumbnail)
         }
     }

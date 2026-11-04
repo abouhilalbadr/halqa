@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Labels on the page of an Arabic title from a computer, which is shown in Arabic whatever the TV's language. -->
+<resources>
+    <string name="mac_movie">فيلم</string>
+    <string name="mac_play">شاهد</string>
+    <string name="mac_continue">متابعة</string>
+    <string name="mac_play_episode">شاهد الحلقة %1$d</string>
+    <string name="mac_continue_episode">متابعة الحلقة %1$d</string>
+    <string name="mac_minutes_left">باقي %1$d د</string>
+    <string name="mac_watched">تمت المشاهدة</string>
+    <string name="mac_delete">حذف</string>
+    <string name="mac_delete_title">حذف «%1$s»؟</string>
+    <plurals name="mac_delete_subtitle">
+        <item quantity="zero">يُحذف المجلد من الكمبيوتر. لا يذهب إلى سلة المهملات.</item>
+        <item quantity="one">يُحذف مع الفيديو من الكمبيوتر. لا يذهب إلى سلة المهملات.</item>
+        <item quantity="two">يُحذف المجلد مع الفيديوهين من الكمبيوتر. لا يذهب إلى سلة المهملات.</item>
+        <item quantity="few">يُحذف المجلد مع %1$d فيديوهات من الكمبيوتر. لا يذهب إلى سلة المهملات.</item>
+        <item quantity="many">يُحذف المجلد مع %1$d فيديو من الكمبيوتر. لا يذهب إلى سلة المهملات.</item>
+        <item quantity="other">يُحذف المجلد مع %1$d فيديو من الكمبيوتر. لا يذهب إلى سلة المهملات.</item>
+    </plurals>
+    <string name="mac_deleted">تم حذف «%1$s» من الكمبيوتر</string>
+    <string name="mac_starring">بطولة: %1$s</string>
+    <string name="mac_directed_by">إخراج: %1$s</string>
+    <string name="sign_out_cancel">إلغاء</string>
+    <string name="player_episode">الحلقة %1$d</string>
+    <plurals name="mac_episodes">
+        <item quantity="zero">لا حلقات</item>
+        <item quantity="one">حلقة واحدة</item>
+        <item quantity="two">حلقتان</item>
+        <item quantity="few">%1$d حلقات</item>
+        <item quantity="many">%1$d حلقة</item>
+        <item quantity="other">%1$d حلقة</item>
+    </plurals>
+</resources>

@@ -53,4 +53,54 @@
     <string name="player_remaining">−%1$s</string>
     <string name="player_error">This video couldn\'t be played. Press Back to return.</string>
     <string name="library_press_back_to_exit">Press back again to exit</string>
+    <!-- Videos from a computer on the home network (Mac or Windows PC, over SMB file sharing) -->
+    <string name="auth_skip_telegram">Continue without Telegram</string>
+    <string name="library_sign_in_telegram">Sign in to Telegram</string>
+    <string name="library_on_your_mac">On your computer</string>
+    <string name="library_mac_subtitle">series and movies</string>
+    <string name="mac_add_title">Add your computer</string>
+    <string name="mac_your_mac">Your computer</string>
+    <string name="mac_change">Change computer</string>
+    <string name="mac_retry">Try again</string>
+    <string name="mac_loading">Looking for videos…</string>
+    <string name="mac_checking">checking for new videos…</string>
+    <string name="mac_retry_label">Your computer</string>
+    <string name="mac_empty">No videos in “%1$s” yet</string>
+    <string name="mac_add_step_1">Share a folder named <b>Halqa</b></string>
+    <string name="share_mac_title">Mac</string>
+    <string name="share_mac_steps">System Settings › General › Sharing › File Sharing</string>
+    <string name="share_windows_title">Windows</string>
+    <string name="share_windows_steps">Right-click the folder › Properties › Sharing</string>
+    <string name="mac_add_step_2">Keep the computer awake, on the same network as the TV</string>
+    <string name="mac_add_step_3">Pick it from the list or type its address, then sign in</string>
+    <string name="mac_found_title">Computers on your network</string>
+    <string name="mac_searching">Looking for Macs with File Sharing on… A Windows PC won\'t show here; type its address instead.</string>
+    <string name="mac_host_hint">Computer address, e.g. 192.168.1.20</string>
+    <string name="mac_user_hint">User name on the computer</string>
+    <string name="mac_password_hint">Password on the computer</string>
+    <string name="mac_share_hint">Shared folder name</string>
+    <string name="mac_share_default" translatable="false">Halqa</string>
+    <string name="mac_connect">Connect</string>
+    <string name="mac_forget">Forget this computer</string>
+    <string name="mac_fill_in">Fill in every field to connect.</string>
+    <string name="mac_movie">Movie</string>
+    <plurals name="mac_episodes">
+        <item quantity="one">%1$d episode</item>
+        <item quantity="other">%1$d episodes</item>
+    </plurals>
+    <string name="mac_starring">Starring %1$s</string>
+    <string name="mac_directed_by">Directed by %1$s</string>
+    <string name="mac_play">Play</string>
+    <string name="mac_continue">Continue</string>
+    <string name="mac_play_episode">Play E%1$d</string>
+    <string name="mac_continue_episode">Continue E%1$d</string>
+    <string name="mac_minutes_left">%1$d min left</string>
+    <string name="mac_watched">Watched</string>
+    <string name="mac_delete">Delete</string>
+    <string name="mac_delete_title">Delete “%1$s”?</string>
+    <plurals name="mac_delete_subtitle">
+        <item quantity="one">Removes it and its video from your computer. It does not go to the Bin.</item>
+        <item quantity="other">Removes the folder and its %1$d videos from your computer. It does not go to the Bin.</item>
+    </plurals>
+    <string name="mac_deleted">Deleted “%1$s” from your computer</string>
 </resources>

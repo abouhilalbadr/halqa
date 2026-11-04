@@ -50,7 +50,7 @@
         android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textAlignment="viewStart"
+        android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textDirection="firstStrong"
         android:textSize="14sp"

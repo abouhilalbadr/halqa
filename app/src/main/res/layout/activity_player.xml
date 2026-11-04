@@ -16,13 +16,11 @@
         app:surface_type="surface_view"
         app:use_controller="false" />
 
-    <ProgressBar
+    <com.saiesh.tele.presentation.widget.SpinnerView
         android:id="@+id/player_loading"
-        style="?android:attr/progressBarStyleLarge"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_gravity="center"
-        android:indeterminateTint="#F26419" />
+        android:layout_gravity="center" />
 
     <TextView
         android:id="@+id/player_error"

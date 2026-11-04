@@ -2,5 +2,5 @@
 <!-- White card behind the sign-in QR code; its padding is the code's quiet zone. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="#FFFFFF" />
-    <corners android:radius="14dp" />
+    <corners android:radius="10dp" />
 </shape>

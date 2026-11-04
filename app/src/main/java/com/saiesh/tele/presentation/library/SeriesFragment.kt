@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.saiesh.tele.R
+import com.saiesh.tele.presentation.text.ArabicText
 import com.saiesh.tele.domain.model.MediaItem
 import com.saiesh.tele.domain.model.Series
 import com.saiesh.tele.presentation.media.dialog.ConfirmDeleteDialogFragment
@@ -68,7 +69,7 @@ class SeriesFragment :
                     if (found == null) return@collect
                     if (series == null) viewModel.loadSeries(found)
                     series = found
-                    title.text = found.name
+                    ArabicText.setText(title, found.name)
                     count.text =
                         if (found.episodes.size == 1) {
                             getString(R.string.series_one_episode)

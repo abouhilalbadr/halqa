@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Halqa.Pill"
+    android:layout_marginBottom="6dp"
+    android:drawableStart="@drawable/ic_mac"
+    android:drawablePadding="10dp"
+    android:drawableTint="@color/quality_button_text"
+    android:ellipsize="end"
+    android:maxLines="1"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp" />

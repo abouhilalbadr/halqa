@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.saiesh.tele.R
+import com.saiesh.tele.presentation.text.ArabicText
 import com.saiesh.tele.domain.model.Episode
 import java.text.DateFormat
 import java.util.Date
@@ -65,11 +66,11 @@ class EpisodeTileAdapter(
                 view.animate().scaleX(scale).scaleY(scale).setDuration(150).start()
             }
             if (episode.number != null) {
-                number.text = episode.number.toString()
+                ArabicText.setText(number, episode.number.toString())
                 number.setTextSize(TypedValue.COMPLEX_UNIT_SP, NUMBER_SP)
             } else {
                 // Without a caption there is no name to show, so the posting date tells such videos apart.
-                number.text = episode.title.ifEmpty { postedOn(episode.latestDate) }
+                ArabicText.setText(number, episode.title.ifEmpty { postedOn(episode.latestDate) })
                 number.setTextSize(TypedValue.COMPLEX_UNIT_SP, TITLE_SP)
             }
             // Every tile shows the same two facts so they line up; the full quality list is in the quality sheet.

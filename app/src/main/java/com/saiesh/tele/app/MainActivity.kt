@@ -7,15 +7,18 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.saiesh.tele.R
+import com.saiesh.tele.core.mac.MacSettings
 import com.saiesh.tele.domain.model.AuthStep
 import com.saiesh.tele.presentation.auth.AuthFragment
 import com.saiesh.tele.presentation.auth.AuthViewModel
 import com.saiesh.tele.presentation.library.LibraryFragment
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class MainActivity : FragmentActivity() {
@@ -23,28 +26,30 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupExitHandler()
-        // The library is shown only once TDLib reports a signed-in account; loading it earlier
-        // makes every chat request fail with "Unauthorized".
+        // Telegram rows load only once TDLib reports a signed-in account; loading them earlier makes
+        // every chat request fail with "Unauthorized".
         val authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                authViewModel.uiState.collect { state ->
-                    val current = supportFragmentManager.findFragmentById(R.id.main_browse_fragment)
-                    if (state.step == AuthStep.SignedOut) {
-                        restartSignedOut()
-                    } else if (state.step == AuthStep.Authorized) {
-                        // A series page sits on top of the library; only fill an empty or sign-in screen.
-                        if (current == null || current is AuthFragment) {
-                            showLibrary()
+                combine(authViewModel.uiState, MacSettings.telegramSkipped) { state, skipped -> state.step to skipped }
+                    .collect { (step, skipped) ->
+                        val current = supportFragmentManager.findFragmentById(R.id.main_browse_fragment)
+                        if (step == AuthStep.SignedOut) {
+                            restartSignedOut()
+                        } else if (step == AuthStep.Authorized || skipped) {
+                            // Without Telegram the library shows only the Mac's videos. A page opened from the
+                            // library sits on top of it; only fill an empty or sign-in screen.
+                            if (current == null || current is AuthFragment) {
+                                showLibrary()
+                            }
+                        } else if (step != AuthStep.Loading && current !is AuthFragment) {
+                            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                            supportFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.main_browse_fragment, AuthFragment())
+                                .commit()
                         }
-                    } else if (state.step != AuthStep.Loading && current !is AuthFragment) {
-                        supportFragmentManager.popBackStack()
-                        supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.main_browse_fragment, AuthFragment())
-                            .commit()
                     }
-                }
             }
         }
     }

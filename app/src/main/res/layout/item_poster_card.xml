@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="104dp"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/poster_frame"
+        android:layout_width="104dp"
+        android:layout_height="152dp"
+        android:background="@drawable/video_card_background"
+        android:duplicateParentState="true">
+
+        <ImageView
+            android:id="@+id/poster_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop" />
+
+        <!-- Without a cover, the title is written on the card itself. -->
+        <TextView
+            android:id="@+id/poster_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:padding="10dp"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textDirection="firstStrong"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Action cards (add, retry, settings) show an icon and a short line instead of a cover. -->
+        <LinearLayout
+            android:id="@+id/poster_action"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/poster_action_icon"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:importantForAccessibility="no" />
+
+            <!-- Shown instead of the icon while the Mac is being read for the first time. -->
+            <com.saiesh.tele.presentation.widget.SpinnerView
+                android:id="@+id/poster_action_spinner"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/poster_action_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/poster_progress"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_gravity="bottom|start"
+            android:background="#F26419"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/video_card_focus_ring"
+            android:duplicateParentState="true" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/poster_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textDirection="firstStrong"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/poster_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAlignment="textStart"
+        android:textDirection="firstStrong"
+        android:textColor="#B6BCC6"
+        android:textSize="12sp" />
+</LinearLayout>

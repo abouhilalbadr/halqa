@@ -12,13 +12,17 @@ import androidx.core.os.BundleCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.saiesh.tele.R
+import com.saiesh.tele.presentation.text.ArabicText
 import com.saiesh.tele.domain.model.Episode
 import com.saiesh.tele.domain.model.MediaItem
 import com.saiesh.tele.domain.model.Series
 
 /** A sheet along the bottom of the screen with one button per quality of an episode; the best one has focus. */
 class QualitySheetFragment : DialogFragment(R.layout.dialog_quality) {
+    private val libraryViewModel: LibraryViewModel by activityViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.Theme_Tele_ContextMenu)
@@ -35,12 +39,14 @@ class QualitySheetFragment : DialogFragment(R.layout.dialog_quality) {
     ) {
         val args = requireArguments()
         val playTitle = args.getString(ARG_PLAY_TITLE).orEmpty()
+        val seriesKey = args.getString(ARG_SERIES_KEY)
+        val episodeKey = args.getString(ARG_EPISODE_KEY)
         val labels = args.getStringArrayList(ARG_LABELS).orEmpty()
         val items = BundleCompat.getParcelableArrayList(args, ARG_ITEMS, Bundle::class.java).orEmpty()
             .mapNotNull { BundleCompat.getSerializable(it, ARG_ITEM, MediaItem::class.java) }
 
         view.findViewById<View>(R.id.quality_overlay).setOnClickListener { dismiss() }
-        view.findViewById<TextView>(R.id.quality_title).text = args.getString(ARG_HEADING)
+        ArabicText.setText(view.findViewById(R.id.quality_title), args.getString(ARG_HEADING))
         view.findViewById<TextView>(R.id.quality_subtitle).text = args.getString(ARG_SUBTITLE)
 
         val buttons = view.findViewById<LinearLayout>(R.id.quality_buttons)
@@ -58,7 +64,14 @@ class QualitySheetFragment : DialogFragment(R.layout.dialog_quality) {
                     setTextColor(ContextCompat.getColorStateList(context, R.color.quality_button_text))
                     background = ContextCompat.getDrawable(context, R.drawable.quality_button_background)
                     setOnClickListener {
-                        VideoPlayer.play(requireContext(), item, playTitle)
+                        val series = libraryViewModel.series.value.find { it.key == seriesKey }
+                        val episode = series?.episodes?.find { it.key == episodeKey }
+                        val variant = episode?.variants?.getOrNull(index)
+                        if (series != null && variant != null) {
+                            VideoPlayer.playEpisode(requireContext(), series, episode, variant)
+                        } else {
+                            VideoPlayer.play(requireContext(), item, playTitle)
+                        }
                         dismiss()
                     }
                 }
@@ -83,6 +96,8 @@ class QualitySheetFragment : DialogFragment(R.layout.dialog_quality) {
         private const val ARG_LABELS = "labels"
         private const val ARG_ITEMS = "items"
         private const val ARG_ITEM = "item"
+        private const val ARG_SERIES_KEY = "series_key"
+        private const val ARG_EPISODE_KEY = "episode_key"
 
         /** Plays an episode that has one upload straight away; otherwise asks which quality to play. */
         fun playOrChoose(
@@ -92,7 +107,7 @@ class QualitySheetFragment : DialogFragment(R.layout.dialog_quality) {
         ) {
             val playTitle = listOfNotNull(series.name, episode.number?.let { "EP $it" }).joinToString(" - ")
             if (episode.variants.size == 1) {
-                VideoPlayer.play(host.requireContext(), episode.variants.first().item, playTitle)
+                VideoPlayer.playEpisode(host.requireContext(), series, episode, episode.variants.first())
                 return
             }
             if (host.childFragmentManager.findFragmentByTag(TAG) != null) return
@@ -111,6 +126,8 @@ class QualitySheetFragment : DialogFragment(R.layout.dialog_quality) {
                             ARG_PLAY_TITLE to playTitle,
                             ARG_LABELS to ArrayList(labels),
                             ARG_ITEMS to ArrayList(items),
+                            ARG_SERIES_KEY to series.key,
+                            ARG_EPISODE_KEY to episode.key,
                         )
                 }.show(host.childFragmentManager, TAG)
         }

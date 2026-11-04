@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#262A30"
+    android:clipChildren="false"
+    android:orientation="horizontal"
+    android:paddingStart="48dp"
+    android:paddingTop="36dp"
+    android:paddingEnd="48dp"
+    android:paddingBottom="24dp">
+
+    <LinearLayout
+        android:layout_width="196dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/mac_title_poster_frame"
+            android:layout_width="196dp"
+            android:layout_height="286dp"
+            android:background="@drawable/video_card_background">
+
+            <ImageView
+                android:id="@+id/mac_title_poster"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:importantForAccessibility="no"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/mac_title_poster_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@drawable/poster_name_scrim"
+                android:padding="14dp"
+                android:textAlignment="textStart"
+                android:textColor="#FFFFFF"
+                android:textDirection="firstStrong"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/mac_title_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAlignment="textStart"
+            android:textColor="#FFFFFF"
+            android:textDirection="firstStrong"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mac_title_meta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#B6BCC6"
+            android:textSize="14sp" />
+
+        <!-- Play takes the room left by the Delete icon, so its label never wraps. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/mac_title_play"
+                style="@style/Halqa.Pill"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp" />
+
+            <ImageView
+                android:id="@+id/mac_title_delete"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/quality_button_background"
+                android:contentDescription="@string/mac_delete"
+                android:focusable="true"
+                android:clickable="true"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_trash"
+                android:tint="@color/quality_button_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="32dp"
+        android:layout_weight="1"
+        android:clipChildren="false"
+        android:orientation="vertical">
+
+        <!-- From the folder's info.json, when there is one. -->
+        <TextView
+            android:id="@+id/mac_title_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLines="3"
+            android:textAlignment="textStart"
+            android:textColor="#E6E9EE"
+            android:textDirection="firstStrong"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/mac_title_credits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAlignment="textStart"
+            android:textColor="#9AA1AC"
+            android:textDirection="firstStrong"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <androidx.leanback.widget.VerticalGridView
+            android:id="@+id/mac_title_grid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="14dp"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingTop="6dp"
+            android:paddingBottom="24dp" />
+    </LinearLayout>
+</LinearLayout>

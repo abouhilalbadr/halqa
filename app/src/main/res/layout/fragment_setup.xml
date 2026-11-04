@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- First-launch setup guide. One of three parts shows at a time: the welcome choice, the steps (progress bar,
+     the current step, Next and Back), or the done screen. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#262A30">
+
+    <LinearLayout
+        android:id="@+id/setup_welcome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="80dp"
+        android:paddingEnd="80dp">
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/setup_logo_background"
+            android:importantForAccessibility="no"
+            android:padding="8dp"
+            android:src="@drawable/ic_halqa_mark"
+            android:tint="#F26419" />
+
+        <TextView
+            android:id="@+id/setup_welcome_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/setup_welcome_title"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/setup_welcome_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:maxWidth="560dp"
+            android:text="@string/setup_welcome_body"
+            android:textColor="#B6BCC6"
+            android:textSize="17sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/setup_choice_telegram"
+                style="@style/Halqa.SetupChoice"
+                android:drawableStart="@drawable/ic_telegram"
+                android:text="@string/setup_choice_telegram" />
+
+            <TextView
+                android:id="@+id/setup_choice_computer"
+                style="@style/Halqa.SetupChoice"
+                android:drawableStart="@drawable/ic_mac"
+                android:text="@string/setup_choice_computer" />
+
+            <TextView
+                android:id="@+id/setup_choice_both"
+                style="@style/Halqa.SetupChoice"
+                android:drawableStart="@drawable/ic_both"
+                android:text="@string/setup_choice_both" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/setup_welcome_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center"
+            android:text="@string/setup_welcome_hint"
+            android:textColor="#8B919C"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <!-- The guide's language: both names, the current one brighter. Shown with the welcome screen only. -->
+    <TextView
+        android:id="@+id/setup_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/setup_choice_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:nextFocusDown="@id/setup_choice_telegram"
+        android:paddingStart="16dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="7dp"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:id="@+id/setup_steps"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="64dp"
+        android:paddingTop="36dp"
+        android:paddingEnd="64dp"
+        android:paddingBottom="32dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/setup_progress"
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_weight="1"
+                android:orientation="horizontal" />
+
+            <TextView
+                android:id="@+id/setup_step_of"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:textColor="#B6BCC6"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/setup_step_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="28dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/setup_next"
+                style="@style/Halqa.SetupNext"
+                android:text="@string/setup_next" />
+
+            <!-- On the computer's Connect step this button connects; it carries the form's ids. -->
+            <FrameLayout
+                android:id="@+id/setup_connect_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/mac_connect"
+                    style="@style/Halqa.SetupNext"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="40dp"
+                    android:text="@string/mac_connect" />
+
+                <com.saiesh.tele.presentation.widget.SpinnerView
+                    android:id="@+id/mac_connecting"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:visibility="gone"
+                    app:spinnerColor="#FFFFFF" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/setup_back"
+                style="@style/Halqa.SetupBack"
+                android:text="@string/setup_back" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setup_done"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_check_circle" />
+
+        <TextView
+            android:id="@+id/setup_done_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/setup_done_title"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/setup_done_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="#B6BCC6"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/setup_done_button"
+            style="@style/Halqa.SetupNext"
+            android:layout_marginTop="26dp"
+            android:text="@string/setup_done_button" />
+    </LinearLayout>
+</FrameLayout>

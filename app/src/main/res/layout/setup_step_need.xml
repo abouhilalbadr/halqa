@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Setup, computer: what the user needs before connecting. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Halqa.SetupTitle"
+        android:text="@string/setup_need_title" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:drawableStart="@drawable/ic_check"
+        android:drawablePadding="14dp"
+        android:drawableTint="#97C459"
+        android:gravity="center_vertical"
+        android:text="@string/setup_need_1"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/ic_check"
+        android:drawablePadding="14dp"
+        android:drawableTint="#97C459"
+        android:gravity="center_vertical"
+        android:text="@string/setup_need_2"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/ic_check"
+        android:drawablePadding="14dp"
+        android:drawableTint="#97C459"
+        android:gravity="center_vertical"
+        android:text="@string/setup_need_3"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/ic_check"
+        android:drawablePadding="14dp"
+        android:drawableTint="#97C459"
+        android:gravity="center_vertical"
+        android:text="@string/setup_need_4"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+</LinearLayout>

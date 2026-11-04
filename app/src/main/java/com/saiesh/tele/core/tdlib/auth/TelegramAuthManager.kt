@@ -73,6 +73,7 @@ class TelegramAuthManager(
         client.send(TdApi.RequestQrCodeAuthentication(LongArray(0))) { result ->
             if (result is TdApi.Error) {
                 Log.e(TAG, "QR login error: ${result.code} ${result.message}")
+                if (rejectKeysIfInvalid(result)) return@send
                 _uiState.update {
                     it.copy(step = AuthStep.EnterPhone, message = result.message, isLoading = false)
                 }
@@ -155,6 +156,7 @@ class TelegramAuthManager(
     private fun handleResult(result: TdApi.Object?) {
         if (result is TdApi.Error) {
             Log.e(TAG, "Auth error: ${result.code} ${result.message}")
+            if (rejectKeysIfInvalid(result)) return
             _uiState.update { state ->
                 state.copy(message = result.message, isLoading = false)
             }
@@ -216,6 +218,23 @@ class TelegramAuthManager(
         client.send(parameters) { result ->
             handleResult(result)
         }
+    }
+
+    /** Whether an API ID and hash are available, typed in on this TV or built into the app. */
+    fun hasKeys(): Boolean =
+        (!credentialsStore.getApiId().isNullOrBlank() && !credentialsStore.getApiHash().isNullOrBlank()) ||
+            ((BuildConfig.TELEGRAM_API_ID.toIntOrNull() ?: 0) != 0 && BuildConfig.TELEGRAM_API_HASH.isNotBlank())
+
+    /**
+     * Telegram answers a wrong API ID or hash with API_ID_INVALID on the first request that reaches it. TDLib
+     * accepts its parameters only once per process, so the stored keys are forgotten and the app is restarted
+     * by whoever shows [AuthUiState.keysRejected].
+     */
+    private fun rejectKeysIfInvalid(error: TdApi.Error): Boolean {
+        if (!error.message.contains("API_ID", ignoreCase = true)) return false
+        credentialsStore.clear()
+        _uiState.update { it.copy(step = AuthStep.EnterApiKeys, keysRejected = true, isLoading = false) }
+        return true
     }
 
     fun cleanup() {

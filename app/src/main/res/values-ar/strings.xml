@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Labels on the page of an Arabic title from a computer, which is shown in Arabic whatever the TV's language. -->
+<!-- Arabic labels: an Arabic title's page uses them whatever the TV's language, and the setup guide when the TV is in Arabic. -->
 <resources>
     <string name="mac_movie">فيلم</string>
     <string name="mac_play">شاهد</string>
@@ -33,4 +33,63 @@
     </plurals>
     <string name="series_loading_more">جارٍ البحث عن حلقات أخرى…</string>
     <string name="series_saved_messages">الرسائل المحفوظة</string>
+    <!-- دليل الإعداد عند التشغيل الأول، بالعربية الفصحى. -->
+    <string name="setup_welcome_title">مرحبًا بك في حلقة</string>
+    <string name="setup_welcome_body">شاهد مسلسلاتك على هذا التلفاز من تيليجرام، أو من حاسوب في المنزل، أو من كليهما. أين توجد مقاطع الفيديو الخاصة بك؟</string>
+    <string name="setup_choice_telegram">تيليجرام</string>
+    <string name="setup_choice_computer">حاسوبي</string>
+    <string name="setup_choice_both">كلاهما</string>
+    <string name="setup_welcome_hint">يتطلب تيليجرام حسابك وهاتفك · ويتطلب الحاسوب جهاز Mac أو PC على شبكة Wi-Fi نفسها</string>
+    <string name="setup_step_of">الخطوة %1$d من %2$d</string>
+    <string name="setup_next">التالي</string>
+    <string name="setup_back">رجوع</string>
+    <string name="setup_get_key_title">احصل على مفتاح تيليجرام</string>
+    <string name="setup_get_key_subtitle">يطلب تيليجرام مفتاحًا خاصًا لكل تطبيق. الحصول عليه مجاني، ويتم مرة واحدة من هاتفك.</string>
+    <string name="setup_get_key_step_1">امسح الرمز بكاميرا هاتفك</string>
+    <string name="setup_get_key_step_2">سجّل الدخول برقم هاتفك. يصلك الرمز في <b>تيليجرام</b> وليس برسالة نصية</string>
+    <string name="setup_get_key_step_3">افتح <b>API development tools</b></string>
+    <string name="setup_get_key_step_4">اكتب أي اسم للتطبيق واسمًا مختصرًا، ثم اضغط <b>Create application</b></string>
+    <string name="setup_enter_key_title">أدخل مفتاحك</string>
+    <string name="setup_enter_key_subtitle">انسخ <b>App api_id</b> و <b>App api_hash</b> من تلك الصفحة.</string>
+    <string name="setup_enter_key_phone">أو امسح الرمز بهاتفك والصق المفتاح هناك</string>
+    <string name="setup_key_invalid">تحقّق من المفتاح: api_id رقم، و api_hash يتكوّن من 32 حرفًا ورقمًا.</string>
+    <string name="setup_key_rejected">لم يقبل تيليجرام هذا المفتاح. تحقّق من القيمتين وأدخلهما مرة أخرى.</string>
+    <string name="setup_sign_in_title">سجّل الدخول إلى تيليجرام</string>
+    <string name="setup_signed_in">تم تسجيل الدخول باسم %1$s</string>
+    <string name="setup_need_title">ما تحتاج إليه</string>
+    <string name="setup_need_1">جهاز Mac أو حاسوب Windows على شبكة Wi-Fi نفسها التي يتصل بها هذا التلفاز</string>
+    <string name="setup_need_2">مجلد باسم <b>Halqa</b> يحتوي على مقاطع الفيديو</string>
+    <string name="setup_need_3">مجلد لكل مسلسل، مثل Halqa › اسم المسلسل › E01.mp4</string>
+    <string name="setup_need_4">اسم المستخدم وكلمة المرور على ذلك الحاسوب</string>
+    <string name="setup_share_title">شارك مجلد Halqa</string>
+    <string name="setup_share_mac">إعدادات النظام › عام › المشاركة: فعّل مشاركة الملفات وأضف مجلد Halqa. ثم الخيارات › حدّد اسم المستخدم ضمن مشاركة ملفات Windows.</string>
+    <string name="setup_share_windows">انقر بزر الفأرة الأيمن على مجلد Halqa › خصائص › مشاركة › مشاركة. تجد عنوان الحاسوب في الإعدادات › الشبكة والإنترنت › الخصائص (عنوان IPv4).</string>
+    <string name="setup_share_awake">أبقِ الحاسوب قيد التشغيل أثناء المشاهدة.</string>
+    <string name="setup_connect_title">الاتصال</string>
+    <string name="setup_connect_subtitle">اختر حاسوبك أو اكتب عنوانه، ثم سجّل الدخول.</string>
+    <string name="setup_done_title">كل شيء جاهز</string>
+    <string name="setup_done_telegram">مسلسلات تيليجرام في الشاشة الرئيسية.</string>
+    <string name="setup_done_computer">مسلسلات حاسوبك في الشاشة الرئيسية.</string>
+    <string name="setup_done_both">مسلسلات تيليجرام وحاسوبك في الشاشة الرئيسية.</string>
+    <string name="setup_done_button">انتقل إلى مقاطع الفيديو</string>
+    <string name="setup_phone_title">الصق مفتاح تيليجرام</string>
+    <string name="setup_phone_intro">انسخ App api_id و App api_hash من my.telegram.org والصقهما هنا.</string>
+    <string name="setup_phone_send">أرسل إلى التلفاز</string>
+    <string name="setup_phone_sent">تم الإرسال. انظر إلى التلفاز.</string>
+    <string name="auth_qr_step_1">افتح <b>تيليجرام</b> على هاتفك</string>
+    <string name="auth_qr_step_2">انتقل إلى <b>الإعدادات › الأجهزة</b></string>
+    <string name="auth_qr_step_3">اضغط <b>ربط جهاز سطح المكتب</b> وامسح هذا الرمز</string>
+    <string name="auth_qr_waiting">بانتظار هاتفك · يتجدّد الرمز تلقائيًا</string>
+    <string name="auth_qr_description">رمز QR لتسجيل الدخول إلى تيليجرام</string>
+    <string name="auth_phone_hint">رقم الهاتف</string>
+    <string name="auth_code_hint">رمز الدخول</string>
+    <string name="auth_password_hint">كلمة مرور التحقق بخطوتين</string>
+    <string name="mac_found_title">الحواسيب على شبكتك</string>
+    <string name="mac_searching">جارٍ البحث عن أجهزة Mac التي فعّلت مشاركة الملفات… لا يظهر حاسوب Windows هنا، فاكتب عنوانه بدلًا من ذلك.</string>
+    <string name="mac_host_hint">عنوان الحاسوب، مثل 192.168.1.20</string>
+    <string name="mac_user_hint">اسم المستخدم على الحاسوب</string>
+    <string name="mac_password_hint">كلمة المرور على الحاسوب</string>
+    <string name="mac_share_hint">اسم المجلد المشترك</string>
+    <string name="mac_connect">اتصال</string>
+    <string name="mac_fill_in">املأ جميع الحقول للاتصال.</string>
 </resources>

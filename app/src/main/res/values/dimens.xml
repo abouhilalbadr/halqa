@@ -6,4 +6,5 @@
     <dimen name="series_side_width">250dp</dimen>
     <dimen name="series_cover_height">141dp</dimen>
     <dimen name="series_grid_gap">32dp</dimen>
+    <dimen name="setup_segment_gap">6dp</dimen>
 </resources>

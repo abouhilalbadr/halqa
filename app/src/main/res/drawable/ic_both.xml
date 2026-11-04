@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Two overlapping squares: videos from both Telegram and a computer. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M10,4H18A2,2 0,0 1,20 6V14A2,2 0,0 1,18 16H10A2,2 0,0 1,8 14V6A2,2 0,0 1,10 4Z"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FFFFFF" />
+    <path
+        android:pathData="M16,16V18A2,2 0,0 1,14 20H6A2,2 0,0 1,4 18V10A2,2 0,0 1,6 8H8"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

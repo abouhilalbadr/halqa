@@ -15,9 +15,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.saiesh.tele.R
 import com.saiesh.tele.core.mac.MacSettings
 import com.saiesh.tele.domain.model.AuthStep
-import com.saiesh.tele.presentation.auth.AuthFragment
 import com.saiesh.tele.presentation.auth.AuthViewModel
 import com.saiesh.tele.presentation.library.LibraryFragment
+import com.saiesh.tele.presentation.setup.SetupFragment
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -36,17 +36,17 @@ class MainActivity : FragmentActivity() {
                         val current = supportFragmentManager.findFragmentById(R.id.main_browse_fragment)
                         if (step == AuthStep.SignedOut) {
                             restartSignedOut()
+                        } else if (current is SetupFragment) {
+                            // The guide may go on to the computer after Telegram signs in, so it opens home itself.
                         } else if (step == AuthStep.Authorized || skipped) {
-                            // Without Telegram the library shows only the Mac's videos. A page opened from the
-                            // library sits on top of it; only fill an empty or sign-in screen.
-                            if (current == null || current is AuthFragment) {
-                                showLibrary()
-                            }
-                        } else if (step != AuthStep.Loading && current !is AuthFragment) {
+                            // Without Telegram the library shows only the computer's videos. A page opened from
+                            // the library sits on top of it; only fill an empty screen.
+                            if (current == null) showLibrary()
+                        } else if (step != AuthStep.Loading) {
                             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                             supportFragmentManager
                                 .beginTransaction()
-                                .replace(R.id.main_browse_fragment, AuthFragment())
+                                .replace(R.id.main_browse_fragment, SetupFragment())
                                 .commit()
                         }
                     }
@@ -54,7 +54,7 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-    private fun showLibrary() {
+    fun showLibrary() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.main_browse_fragment, LibraryFragment())
@@ -67,6 +67,11 @@ class MainActivity : FragmentActivity() {
      */
     private fun restartSignedOut() {
         cacheDir.listFiles()?.forEach { it.deleteRecursively() }
+        restart()
+    }
+
+    /** Starts the app again in a new process, which also gives TDLib a fresh start. */
+    fun restart() {
         startActivity(Intent.makeRestartActivityTask(componentName))
         Runtime.getRuntime().exit(0)
     }

@@ -49,8 +49,9 @@ class TdLibFileSource(
             val completed = AtomicBoolean(false)
             lateinit var updateHandler: (TdApi.Object?) -> Unit
 
+            // dispatch() takes the waiting callbacks out of pendingDownloads itself; removing them here first
+            // left nobody to tell, so a freshly downloaded thumbnail never replaced the blurry inline preview.
             fun cleanup(path: String?) {
-                pendingDownloads.remove(fileId)
                 TdLibClient.removeUpdateHandler(updateHandler)
                 dispatch(path)
             }

@@ -9,6 +9,10 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/abouhilalbadr/halqa/releases/latest"><b>⬇ Download the latest APK</b></a>
+</p>
+
+<p align="center">
   <img src="docs/images/home.jpg" alt="Halqa home screen with the On your computer row" width="800">
 </p>
 
@@ -17,6 +21,16 @@ plays in Halqa's own player. Videos can come from Telegram, from a shared folder
 Telegram is optional.
 
 Halqa is based on [Tele](https://github.com/saieshshirodkar/Tele) by Syndicate, released under the MIT licence.
+
+## Install
+
+1. Download the APK from the [latest release](https://github.com/abouhilalbadr/halqa/releases/latest).
+2. Copy it to the TV (a USB stick, or an app such as *Send Files to TV* or *Downloader*), open it, and allow installs
+   from that source when asked.
+3. Open Halqa. A short guide, in English or Arabic, sets up Telegram, your computer, or both.
+
+Telegram needs your own free API key from [my.telegram.org](https://my.telegram.org/apps); the guide shows how, and
+you can paste the key from your phone. Halqa needs Android TV 6.0 or later.
 
 ## Screens
 

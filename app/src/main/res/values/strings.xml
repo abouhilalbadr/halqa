@@ -34,6 +34,7 @@
     <string name="library_all_series">All series</string>
     <string name="series_episode_count">%1$d episodes</string>
     <string name="series_one_episode">1 episode</string>
+    <string name="series_saved_messages">Saved Messages</string>
     <string name="series_loading_more">Finding more episodes…</string>
     <string name="quality_play_episode">Play episode %1$d</string>
     <string name="quality_choose">choose quality</string>

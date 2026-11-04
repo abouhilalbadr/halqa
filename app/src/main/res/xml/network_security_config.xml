@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Telegram videos reach the built-in player through LocalStreamServer, a plain HTTP server on the
+     TV's own loopback address. Android blocks plain HTTP by default, so it is allowed for loopback only;
+     every other connection still has to use HTTPS. -->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">127.0.0.1</domain>
+        <domain includeSubdomains="false">localhost</domain>
+    </domain-config>
+</network-security-config>

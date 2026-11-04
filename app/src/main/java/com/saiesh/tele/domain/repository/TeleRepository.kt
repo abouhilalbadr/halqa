@@ -1,5 +1,6 @@
 package com.saiesh.tele.domain.repository
 
+import com.saiesh.tele.domain.model.AllVideosCursor
 import com.saiesh.tele.domain.model.MediaItem
 import com.saiesh.tele.domain.model.VideoChatItem
 
@@ -42,9 +43,17 @@ interface TeleRepository {
         onResult: (String?) -> Unit,
     )
 
-    fun requestFastLink(
-        item: MediaItem,
-        onResult: (String?, String?) -> Unit,
+    /** Videos from every chat in the main list whose text contains [query] (empty: all), newest first. */
+    fun loadAllVideosPaged(
+        limit: Int,
+        cursor: AllVideosCursor,
+        query: String,
+        onResult: (List<MediaItem>, AllVideosCursor, String?) -> Unit,
+    )
+
+    fun getChatTitle(
+        chatId: Long,
+        onResult: (String?) -> Unit,
     )
 
     fun shutdown()

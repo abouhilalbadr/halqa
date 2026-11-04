@@ -130,6 +130,24 @@ class TdLibChatSource(
         }
     }
 
+    /** One page of [filter] matches for [text] (empty: all) across the main chat list; an empty next offset means no more. */
+    fun searchMessagesPage(
+        filter: TdApi.SearchMessagesFilter,
+        text: String,
+        offset: String,
+        limit: Int,
+        onResult: (List<TdApi.Message>, String, String?) -> Unit,
+    ) {
+        val query = TdApi.SearchMessages(TdApi.ChatListMain(), text, offset, limit, filter, null, 0, 0)
+        client.send(query) { result ->
+            when (result) {
+                is TdApi.FoundMessages -> onResult(result.messages?.toList().orEmpty(), result.nextOffset.orEmpty(), null)
+                is TdApi.Error -> onResult(emptyList(), "", result.message)
+                else -> onResult(emptyList(), "", "Unexpected response")
+            }
+        }
+    }
+
     fun clearCache() {
         cachedMeId = null
         cachedSavedMessagesChatId = null

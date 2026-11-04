@@ -2,21 +2,19 @@ package com.saiesh.tele.data.repository
 
 import com.saiesh.tele.core.cache.TeleCache
 import com.saiesh.tele.data.mapper.MediaMapper
-import com.saiesh.tele.data.tdlib.BOT_USERNAME
-import com.saiesh.tele.data.tdlib.FAST_LINK_TIMEOUT_SECONDS
 import com.saiesh.tele.data.tdlib.HISTORY_PAGE_SIZE
 import com.saiesh.tele.data.tdlib.SEARCH_LIMIT_PER_FILTER
 import com.saiesh.tele.data.tdlib.TdLibChatSource
 import com.saiesh.tele.data.tdlib.TdLibFileSource
 import com.saiesh.tele.data.tdlib.TdLibMediaSource
 import com.saiesh.tele.data.tdlib.TdLibMessageSource
+import com.saiesh.tele.domain.model.AllVideosCursor
 import com.saiesh.tele.domain.model.MediaItem
 import com.saiesh.tele.domain.model.MediaType
 import com.saiesh.tele.domain.model.SAVED_MESSAGES_TITLE
 import com.saiesh.tele.domain.model.VideoChatItem
 import com.saiesh.tele.domain.repository.TeleRepository
 import org.drinkless.tdlib.TdApi
-import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 
 class TeleRepositoryImpl(
@@ -25,7 +23,6 @@ class TeleRepositoryImpl(
     private val fileSource: TdLibFileSource = TdLibFileSource(),
     private val messageSource: TdLibMessageSource = TdLibMessageSource(),
 ) : TeleRepository {
-    private val handlerScheduler = Executors.newSingleThreadScheduledExecutor()
 
     override fun getCachedSavedMessagesChatId(): Long? = chatSource.getCachedSavedMessagesChatId()
 
@@ -304,24 +301,62 @@ class TeleRepositoryImpl(
         fileSource.downloadThumbnail(fileId, onResult)
     }
 
-    override fun requestFastLink(
-        item: MediaItem,
-        onResult: (String?, String?) -> Unit,
+    override fun loadAllVideosPaged(
+        limit: Int,
+        cursor: AllVideosCursor,
+        query: String,
+        onResult: (List<MediaItem>, AllVideosCursor, String?) -> Unit,
     ) {
-        messageSource.requestFastLink(
-            BOT_USERNAME,
-            item.chatId,
-            item.messageId,
-            handlerScheduler,
-            FAST_LINK_TIMEOUT_SECONDS,
-            onResult,
-        )
+        // Videos sent as files show up under the document filter, so both searches are merged.
+        val searches =
+            listOfNotNull(
+                cursor.videoOffset?.let { TdApi.SearchMessagesFilterVideo() to it },
+                cursor.documentOffset?.let { TdApi.SearchMessagesFilterDocument() to it },
+            )
+        if (searches.isEmpty()) {
+            onResult(emptyList(), cursor, null)
+            return
+        }
+        val pending = AtomicInteger(searches.size)
+        val lock = Any()
+        val collected = mutableListOf<MediaItem>()
+        var next = cursor
+        var firstError: String? = null
+        for ((filter, offset) in searches) {
+            chatSource.searchMessagesPage(filter, query, offset, limit) { messages, nextOffset, error ->
+                synchronized(lock) {
+                    messages
+                        .mapNotNull { MediaMapper.mapMessage(it) }
+                        .filterTo(collected) { it.type == MediaType.Video }
+                    val remaining = nextOffset.takeIf { it.isNotEmpty() && error == null }
+                    next =
+                        if (filter is TdApi.SearchMessagesFilterVideo) {
+                            next.copy(videoOffset = remaining)
+                        } else {
+                            next.copy(documentOffset = remaining)
+                        }
+                    if (error != null && firstError == null) firstError = error
+                    if (pending.decrementAndGet() == 0) {
+                        val page =
+                            collected
+                                .distinctBy { it.chatId to it.messageId }
+                                .sortedByDescending { it.date }
+                        onResult(page, next, firstError)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun getChatTitle(
+        chatId: Long,
+        onResult: (String?) -> Unit,
+    ) {
+        chatSource.getChat(chatId) { chat, _ -> onResult(chat?.title) }
     }
 
     override fun shutdown() {
-        handlerScheduler.shutdown()
         fileSource.clearPending()
-        messageSource.clearPendingFastLinks()
         chatSource.clearCache()
     }
 }

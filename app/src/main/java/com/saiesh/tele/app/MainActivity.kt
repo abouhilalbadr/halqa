@@ -1,5 +1,6 @@
 package com.saiesh.tele.app
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,7 +15,7 @@ import com.saiesh.tele.R
 import com.saiesh.tele.domain.model.AuthStep
 import com.saiesh.tele.presentation.auth.AuthFragment
 import com.saiesh.tele.presentation.auth.AuthViewModel
-import com.saiesh.tele.presentation.media.BrowseFragment
+import com.saiesh.tele.presentation.library.LibraryFragment
 import kotlinx.coroutines.launch
 
 class MainActivity : FragmentActivity() {
@@ -22,20 +23,19 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupExitHandler()
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.main_browse_fragment, BrowseFragment())
-                .commitNow()
-        }
+        // The library is shown only once TDLib reports a signed-in account; loading it earlier
+        // makes every chat request fail with "Unauthorized".
         val authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 authViewModel.uiState.collect { state ->
                     val current = supportFragmentManager.findFragmentById(R.id.main_browse_fragment)
-                    if (state.step == AuthStep.Authorized) {
-                        if (current !is BrowseFragment) {
-                            showBrowse()
+                    if (state.step == AuthStep.SignedOut) {
+                        restartSignedOut()
+                    } else if (state.step == AuthStep.Authorized) {
+                        // A series page sits on top of the library; only fill an empty or sign-in screen.
+                        if (current == null || current is AuthFragment) {
+                            showLibrary()
                         }
                     } else if (state.step != AuthStep.Loading && current !is AuthFragment) {
                         supportFragmentManager.popBackStack()
@@ -49,14 +49,21 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-    fun showBrowse() {
-        val current = supportFragmentManager.findFragmentById(R.id.main_browse_fragment)
-        if (current !is BrowseFragment) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.main_browse_fragment, BrowseFragment())
-                .commit()
-        }
+    private fun showLibrary() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.main_browse_fragment, LibraryFragment())
+            .commit()
+    }
+
+    /**
+     * Signing out closes the TDLib client that every data source holds, so the app starts a fresh
+     * process for the next account. Cached videos and thumbnails belong to the old account and go too.
+     */
+    private fun restartSignedOut() {
+        cacheDir.listFiles()?.forEach { it.deleteRecursively() }
+        startActivity(Intent.makeRestartActivityTask(componentName))
+        Runtime.getRuntime().exit(0)
     }
 
     private var exitCallback: OnBackPressedCallback? = null
@@ -69,20 +76,18 @@ class MainActivity : FragmentActivity() {
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     val fragment = supportFragmentManager.findFragmentById(R.id.main_browse_fragment)
-                    if (fragment is BrowseFragment) {
-                        if (fragment.isShowingHeaders()) {
-                            if (waitingForExit) {
-                                finish()
-                                return
-                            }
-                            waitingForExit = true
-                            Toast
-                                .makeText(this@MainActivity, "Press back again to exit", Toast.LENGTH_SHORT)
-                                .show()
-                            handler.removeCallbacksAndMessages(null)
-                            handler.postDelayed({ waitingForExit = false }, 2000)
+                    if (fragment is LibraryFragment && supportFragmentManager.backStackEntryCount == 0) {
+                        if (waitingForExit) {
+                            finish()
                             return
                         }
+                        waitingForExit = true
+                        Toast
+                            .makeText(this@MainActivity, R.string.library_press_back_to_exit, Toast.LENGTH_SHORT)
+                            .show()
+                        handler.removeCallbacksAndMessages(null)
+                        handler.postDelayed({ waitingForExit = false }, 2000)
+                        return
                     }
                     isEnabled = false
                     onBackPressedDispatcher.onBackPressed()

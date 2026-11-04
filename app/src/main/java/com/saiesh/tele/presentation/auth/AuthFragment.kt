@@ -2,8 +2,11 @@ package com.saiesh.tele.presentation.auth
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
@@ -32,6 +35,17 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         val codeInput = view.findViewById<EditText>(R.id.auth_code_input)
         val passwordInput = view.findViewById<EditText>(R.id.auth_password_input)
         val submit = view.findViewById<Button>(R.id.auth_submit_button)
+        val qrImage = view.findViewById<ImageView>(R.id.auth_qr_image)
+        val qrCard = view.findViewById<View>(R.id.auth_qr_card)
+        val qrSteps = view.findViewById<View>(R.id.auth_qr_steps)
+        view.findViewById<View>(R.id.auth_waiting_dot).startAnimation(
+            AlphaAnimation(1f, 0.3f).apply {
+                duration = 800
+                repeatMode = Animation.REVERSE
+                repeatCount = Animation.INFINITE
+            },
+        )
+        var shownQrLink: String? = null
 
         apiIdInput.addTextChangedListener { viewModel.onApiIdChange(it?.toString().orEmpty()) }
         apiHashInput.addTextChangedListener { viewModel.onApiHashChange(it?.toString().orEmpty()) }
@@ -53,11 +67,20 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     title.text =
-                        if (state.step == AuthStep.EnterApiKeys) {
-                            getString(R.string.auth_api_title)
-                        } else {
-                            getString(R.string.auth_title)
+                        when (state.step) {
+                            AuthStep.EnterApiKeys -> getString(R.string.auth_api_title)
+                            AuthStep.ScanQr -> getString(R.string.auth_qr_title)
+                            else -> getString(R.string.auth_title)
                         }
+
+                    val showQr = state.step == AuthStep.ScanQr && state.qrLink != null
+                    if (showQr && state.qrLink != shownQrLink) {
+                        shownQrLink = state.qrLink
+                        qrImage.setImageBitmap(QrCodeRenderer.render(state.qrLink!!, QR_SIZE_PX))
+                    }
+                    qrCard.visibility = if (showQr) View.VISIBLE else View.GONE
+                    qrSteps.visibility = if (showQr) View.VISIBLE else View.GONE
+
                     message.text = state.message.orEmpty()
                     message.visibility = if (state.message.isNullOrBlank()) View.GONE else View.VISIBLE
                     progress.visibility = if (state.isLoading) View.VISIBLE else View.GONE
@@ -68,7 +91,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                     codeInput.visibility = if (state.step == AuthStep.EnterCode) View.VISIBLE else View.GONE
                     passwordInput.visibility = if (state.step == AuthStep.EnterPassword) View.VISIBLE else View.GONE
                     submit.visibility =
-                        if (state.step == AuthStep.Authorized || state.step == AuthStep.Loading) {
+                        if (state.step == AuthStep.Authorized || state.step == AuthStep.Loading || state.step == AuthStep.ScanQr) {
                             View.GONE
                         } else {
                             View.VISIBLE
@@ -101,5 +124,9 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                 }
             }
         }
+    }
+
+    private companion object {
+        const val QR_SIZE_PX = 600
     }
 }

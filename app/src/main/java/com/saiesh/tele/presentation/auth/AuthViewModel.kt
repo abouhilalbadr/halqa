@@ -28,8 +28,10 @@ class AuthViewModel(
                         phone = state.phone,
                         code = state.code,
                         password = state.password,
+                        qrLink = state.qrLink,
                         message = state.message,
                         isLoading = state.isLoading,
+                        accountName = state.accountName,
                     )
                 }
             }
@@ -90,6 +92,8 @@ class AuthViewModel(
         }
         authManager.submitPassword(password)
     }
+
+    fun logOut() = authManager.logOut()
 
     override fun onCleared() {
         authManager.cleanup()

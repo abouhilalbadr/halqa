@@ -1,103 +1,60 @@
-# Tele
+# Halqa
 
-Tele is an Android TV app that lets you browse and play videos, photos, and other media from your Telegram chats right on your TV. It works with your Telegram Saved Messages and any other chats you have.
+Halqa is an Android TV app for watching the videos posted in your Telegram chats and channels. It groups them into
+series and episodes, like a streaming app: open a series, pick an episode, choose a quality, and it plays.
 
-> **Active development.** Work is in progress and new builds aren't tested on real hardware yet. **[v0.1](https://github.com/saieshshirodkar/Tele/releases/tag/v0.1) is the last known-stable release, use that.** No 1.x builds are published.
+Halqa is based on [Tele](https://github.com/saieshshirodkar/Tele) by Syndicate, released under the MIT licence.
+
+## What it does
+
+- **Series, not a flat list.** Videos are grouped by the series name and episode number found in their captions
+  (Arabic, English and Turkish formats such as `الحلقة 35`, `Episode 5`, `S01E05` and `35. Bölüm`).
+- **One tile per episode.** When a channel posts the same episode once per quality, those uploads become one episode,
+  and OK opens a quality picker (4K, 1080p, 720p, …).
+- **Trailers and clips left out.** Promos, teasers and short clips without an episode number are hidden, and a clip
+  shorter than half an episode doesn't count as one of its qualities.
+- **Home screen.** A "New episodes" row with the latest episode of each series, and an "All series" row.
+- **QR sign-in.** Scan a code with Telegram on your phone (Settings › Devices › Link Desktop Device).
+  Sign out from the account circle on the home screen to switch accounts.
+- **Streaming.** Videos stream from Telegram through a small local server into
+  [EZV Player](https://play.google.com/store/search?q=EZV%20Player&c=apps), or any installed video player.
 
 ## What you need
 
-- An Android TV device (or Android TV box)
-- A Telegram account
-- Your own Telegram API ID and API Hash (don't worry, I'll explain how to get these below)
+- An Android TV device. The build targets 32-bit ARM (`armeabi-v7a`), which runs on both 32-bit and most 64-bit TVs.
+- A Telegram account.
+- Your own Telegram API ID and API hash from [my.telegram.org/apps](https://my.telegram.org/apps).
+  Keep them private.
+- A video player on the TV. EZV Player is recommended.
 
-## Getting your API credentials
+## Building it
 
-Before you can use Tele, you need to get your own Telegram API ID and Hash. This is how Telegram knows the app is connecting on your behalf.
+1. Clone this repository.
+2. Create `local.properties` in the project root with your Telegram API keys. This file is git-ignored, so your keys
+   stay on your machine:
+   ```
+   TELEGRAM_API_ID=your_api_id
+   TELEGRAM_API_HASH=your_api_hash
+   ```
+   You can leave the keys out; the app then asks for them on first launch and stores them on the TV.
+3. Build with JDK 17 and install:
+   ```
+   ./gradlew :app:assembleDebug
+   adb install -r app/build/outputs/apk/debug/app-debug.apk
+   ```
 
-1. Go to https://my.telegram.org/apps
-2. Log in with your Telegram phone number
-3. Click "API development tools"
-4. Fill in the form (App title: Tele, Short name: tele, Platform: Android, Description: Android TV client for Telegram)
-5. Click "Create application"
-6. You'll see your **api_id** and **api_hash** - save these somewhere safe
+A release build also needs `RELEASE_STORE_FILE`, `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS` and
+`RELEASE_KEY_PASSWORD` in `local.properties`.
 
-Keep these private. Don't share your API Hash with anyone.
-
-## Download
-
-Head over to the [Releases](https://github.com/saieshshirodkar/Tele/releases) page and download the latest APK file. Look for something like `Tele-0.0.2.apk`.
-
-## Install
-
-There are two ways to install:
-
-**Option 1: USB or file manager**
-- Copy the APK file to a USB drive
-- Plug it into your Android TV
-- Use a file manager app to find and install it
-
-**Option 2: ADB (for tech-savvy users)**
-- Connect your computer to the same network as your TV
-- Find your TV's IP address in Settings > Network
-- Run this command on your computer:
-  ```
-  adb connect <your-tv-ip>
-  adb install Tele-0.0.2.apk
-  ```
-
-## Setting up the app
-
-The first time you open Tele, you'll need to do a quick setup:
-
-1. **Enter API credentials** - The app will ask for your API ID and API Hash. Type in the values you got from my.telegram.org and press Save.
-
-2. **Sign in** - Enter your Telegram phone number (with country code, like +1234567890)
-
-3. **Verify** - Check your Telegram app or phone for a login code and enter it
-
-4. **MPV** - Download and setup MPV as it's the player used in the app
-
-5. **Filetolink bot** - Set up Filetolink in Telegram (only once) as it's the file host used in the app
-
-6. **Done** - You're in! Browse your chats and play media.
-
-The app saves your API keys securely on your TV so you only need to enter them once.
-
-## Things to know
-
-- This app uses **your own** Telegram API credentials, not shared ones
-- Picture messages are not fully supported yet (working on it)
-- Videos, documents, and other files work great
-- Contact me at https://t.me/Syndicate_74 for questions or suggestions
-- Want to explore the code? Check it out at https://repogrep.com/saieshshirodkar/Tele
+Don't share an APK built with your keys in `local.properties`: the keys are compiled into it.
 
 ## How it's built
 
-- Kotlin for the code
-- Android TV Leanback library for the TV interface
-- TDLib (Telegram's official client library)
-- Coroutines and Flow for handling data
-- RecyclerView for displaying chat lists
+- Kotlin, Android TV Leanback grids and Glide
+- [TDLib](https://github.com/tdlib/td), Telegram's official client library
+- Coroutines and Flow
+- ZXing for the sign-in QR code
 
-## Building it yourself
+## Licence
 
-Want to modify the app or build from source?
-
-1. Clone this repository:
-   ```
-   git clone https://github.com/saieshshirodkar/Tele.git
-   cd Tele
-   ```
-
-2. Create a file called `local.properties` and add your API keys:
-   ```
-   TELEGRAM_API_ID=your_api_id_here
-   TELEGRAM_API_HASH=your_api_hash_here
-   ```
-
-3. Build and install to your TV:
-   ```
-   ./gradlew installDebug
-   ```
-
-That's it. Happy watching!
+MIT. See [LICENSE](LICENSE).

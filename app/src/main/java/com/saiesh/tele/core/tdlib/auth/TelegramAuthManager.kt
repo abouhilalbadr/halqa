@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import org.drinkless.tdlib.TdApi
 import java.io.File
+import java.util.concurrent.atomic.AtomicBoolean
 
 class TelegramAuthManager(
     private val context: Context,
@@ -26,6 +27,7 @@ class TelegramAuthManager(
 
     private val client = TdLibClient.client
     private val credentialsStore = ApiCredentialsStore(context)
+    private val parametersSent = AtomicBoolean(false)
 
     private var updateHandlerRef: ((TdApi.Object?) -> Unit)? = null
     private var errorHandlerRef: ((Throwable?) -> Unit)? = null
@@ -50,6 +52,33 @@ class TelegramAuthManager(
     fun submitCode(code: String) = submitAction(TdApi.CheckAuthenticationCode(code))
 
     fun submitPassword(password: String) = submitAction(TdApi.CheckAuthenticationPassword(password))
+
+    /** Signs this TV out of Telegram; TDLib wipes its local data and reports [AuthStep.SignedOut] when done. */
+    fun logOut() {
+        _uiState.update { it.copy(isLoading = true, message = null) }
+        client.send(TdApi.LogOut()) { result -> handleResult(result) }
+    }
+
+    private fun loadAccountName() {
+        client.send(TdApi.GetMe()) { result ->
+            if (result is TdApi.User) {
+                val name = listOf(result.firstName, result.lastName).filter { it.isNotBlank() }.joinToString(" ")
+                _uiState.update { it.copy(accountName = name.ifEmpty { null }) }
+            }
+        }
+    }
+
+    private fun requestQrCode() {
+        _uiState.update { it.copy(isLoading = true, message = null) }
+        client.send(TdApi.RequestQrCodeAuthentication(LongArray(0))) { result ->
+            if (result is TdApi.Error) {
+                Log.e(TAG, "QR login error: ${result.code} ${result.message}")
+                _uiState.update {
+                    it.copy(step = AuthStep.EnterPhone, message = result.message, isLoading = false)
+                }
+            }
+        }
+    }
 
     private fun submitAction(request: TdApi.Function<*>) {
         _uiState.update { it.copy(isLoading = true, message = null) }
@@ -84,7 +113,12 @@ class TelegramAuthManager(
             }
 
             is TdApi.AuthorizationStateWaitPhoneNumber -> {
-                _uiState.update { it.copy(step = AuthStep.EnterPhone, isLoading = false) }
+                requestQrCode()
+            }
+
+            is TdApi.AuthorizationStateWaitOtherDeviceConfirmation -> {
+                // Telegram refreshes the link every ~30 s and sends this state again.
+                _uiState.update { it.copy(step = AuthStep.ScanQr, qrLink = state.link, isLoading = false) }
             }
 
             is TdApi.AuthorizationStateWaitCode -> {
@@ -97,6 +131,7 @@ class TelegramAuthManager(
 
             is TdApi.AuthorizationStateReady -> {
                 _uiState.update { it.copy(step = AuthStep.Authorized, isLoading = false) }
+                loadAccountName()
             }
 
             is TdApi.AuthorizationStateLoggingOut -> {
@@ -108,7 +143,7 @@ class TelegramAuthManager(
             }
 
             is TdApi.AuthorizationStateClosed -> {
-                _uiState.update { it.copy(message = "Session closed", isLoading = false) }
+                _uiState.update { it.copy(step = AuthStep.SignedOut, message = null, isLoading = false) }
             }
 
             else -> {
@@ -156,6 +191,8 @@ class TelegramAuthManager(
             }
             return
         }
+        // Both the initial state query and the state update arrive here; TDLib accepts parameters once.
+        if (!parametersSent.compareAndSet(false, true)) return
         val databaseDir = File(context.filesDir, "tdlib").absolutePath
         val filesDir = File(context.filesDir, "tdlib_files").absolutePath
 

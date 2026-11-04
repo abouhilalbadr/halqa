@@ -1,111 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Sign-in: brand, heading and steps on the left; the QR code on a white card on the right. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/auth_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="32dp">
+    android:background="#262A30"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="80dp"
+    android:paddingEnd="80dp">
 
-    <TextView
-        android:id="@+id/auth_title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/auth_title"
-        android:textAppearance="@style/TextAppearance.Leanback.Title"
-        android:textColor="@android:color/white" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/auth_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="@android:color/holo_red_light"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/auth_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_halqa_mark"
+            android:drawablePadding="8dp"
+            android:drawableTint="#F26419"
+            android:gravity="center_vertical"
+            android:text="@string/app_name"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-    <ProgressBar
-        android:id="@+id/auth_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/auth_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/auth_title"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/auth_api_id_input"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/auth_api_id_hint"
-        android:inputType="number"
-        android:imeOptions="actionDone"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:padding="12dp"
-        android:visibility="gone" />
+        <LinearLayout
+            android:id="@+id/auth_qr_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-    <EditText
-        android:id="@+id/auth_api_hash_input"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/auth_api_hash_hint"
-        android:inputType="text"
-        android:imeOptions="actionDone"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:padding="12dp"
-        android:visibility="gone" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/auth_phone_input"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/auth_phone_hint"
-        android:inputType="phone"
-        android:imeOptions="actionDone"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:padding="12dp" />
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/step_number_background"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/auth_code_input"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/auth_code_hint"
-        android:inputType="number"
-        android:imeOptions="actionDone"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:padding="12dp"
-        android:visibility="gone" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/auth_qr_step_1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp" />
+            </LinearLayout>
 
-    <EditText
-        android:id="@+id/auth_password_input"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/auth_password_hint"
-        android:inputType="textPassword"
-        android:imeOptions="actionDone"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:padding="12dp"
-        android:visibility="gone" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/auth_submit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/button_primary_background"
-        android:text="@string/auth_submit"
-        android:textColor="@color/button_primary_text" />
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/step_number_background"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/auth_qr_step_2"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/step_number_background"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/auth_qr_step_3"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/auth_waiting_dot"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/waiting_dot" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/auth_qr_waiting"
+                    android:textColor="#B6BCC6"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/auth_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/auth_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/auth_api_id_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/input_background"
+                android:hint="@string/auth_api_id_hint"
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="12dp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/auth_api_hash_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/input_background"
+                android:hint="@string/auth_api_hash_hint"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="12dp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/auth_phone_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/input_background"
+                android:hint="@string/auth_phone_hint"
+                android:inputType="phone"
+                android:imeOptions="actionDone"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="12dp" />
+
+            <EditText
+                android:id="@+id/auth_code_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/input_background"
+                android:hint="@string/auth_code_hint"
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="12dp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/auth_password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/input_background"
+                android:hint="@string/auth_password_hint"
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="12dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/auth_submit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button_primary_background"
+                android:text="@string/auth_submit"
+                android:textColor="@color/button_primary_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/auth_qr_card"
+        android:layout_width="330dp"
+        android:layout_height="330dp"
+        android:layout_marginStart="56dp"
+        android:background="@drawable/qr_card_background"
+        android:padding="14dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/auth_qr_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/auth_qr_description" />
+
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:background="@drawable/qr_logo_background">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_halqa_mark"
+                android:tint="#F26419" />
+        </FrameLayout>
+    </FrameLayout>
 </LinearLayout>

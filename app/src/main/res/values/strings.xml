@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tele</string>
+    <string name="app_name">Halqa</string>
     <string name="auth_title">Sign in to Telegram</string>
     <string name="auth_phone_hint">Phone number</string>
     <string name="auth_code_hint">Login code</string>
@@ -12,6 +12,12 @@
     <string name="auth_submit_phone">Submit phone</string>
     <string name="auth_submit_code">Submit code</string>
     <string name="auth_submit_password">Submit password</string>
+    <string name="auth_qr_title">Sign in with Telegram</string>
+    <string name="auth_qr_step_1">Open <b>Telegram</b> on your phone</string>
+    <string name="auth_qr_step_2">Go to <b>Settings › Devices</b></string>
+    <string name="auth_qr_step_3">Tap <b>Link Desktop Device</b> and scan this code</string>
+    <string name="auth_qr_waiting">Waiting for your phone · the code refreshes on its own</string>
+    <string name="auth_qr_description">QR code for Telegram sign-in</string>
 
 <string name="context_play_now">Play now</string>
     <string name="context_details">Details</string>
@@ -20,4 +26,23 @@
     <string name="context_cancel">Cancel</string>
     <string name="context_delete_title">Delete from chat?</string>
     <string name="context_delete_message">Delete \"%1$s\" from chat?</string>
+    <string name="library_empty">No videos yet</string>
+    <string name="library_empty_message">Videos posted in your Telegram chats and channels will show up here, grouped into series.</string>
+    <string name="library_refresh">Refresh</string>
+    <string name="library_episode_short">EP %1$d</string>
+    <string name="library_new_episodes">New episodes</string>
+    <string name="library_all_series">All series</string>
+    <string name="series_episode_count">%1$d episodes</string>
+    <string name="series_one_episode">1 episode</string>
+    <string name="series_loading_more">Finding more episodes…</string>
+    <string name="quality_play_episode">Play episode %1$d</string>
+    <string name="quality_choose">choose quality</string>
+    <string name="quality_unknown">Original</string>
+    <string name="sign_out">Sign out</string>
+    <string name="sign_out_subtitle">Signed in to Telegram. Sign out to scan a code for another account.</string>
+    <string name="account_description">Account: %1$s</string>
+    <string name="sign_out_title">Sign out of Telegram?</string>
+    <string name="sign_out_cancel">Cancel</string>
+    <string name="library_press_back_to_exit">Press back again to exit</string>
+    <string name="streaming_notification_title">Halqa is streaming a video</string>
 </resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Halqa mark: an open ring with a play arrow breaking out of the gap. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <path
+        android:pathData="M73.85,30.5 A34,34 0 1,0 73.85,69.5"
+        android:strokeWidth="13"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M42,33 L88,50 L42,67 Z"
+        android:strokeWidth="6"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineJoin="round" />
+</vector>

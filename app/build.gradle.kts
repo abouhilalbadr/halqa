@@ -51,7 +51,7 @@ android {
         versionName = "0.1"
 
         ndk {
-            abiFilters += listOf("armeabi-v7a", "arm64-v8a")
+            abiFilters += listOf("armeabi-v7a")
         }
 
         val apiId = properties.getProperty("TELEGRAM_API_ID") ?: ""
@@ -97,6 +97,7 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(project(":leanback-1.0.0"))
     implementation(libs.glide)
+    implementation(libs.zxing.core)
 
 
 }

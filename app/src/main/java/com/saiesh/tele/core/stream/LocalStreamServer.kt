@@ -13,7 +13,6 @@ import java.net.Socket
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 
 /**
@@ -35,9 +34,6 @@ object LocalStreamServer {
     private val client get() = TdLibClient.client
     private val workers = Executors.newCachedThreadPool()
     private val lastFileId = AtomicReference<Int?>(null)
-    private val activeConnections = AtomicInteger(0)
-
-    @Volatile private var lastActivityAt = System.currentTimeMillis()
 
     @Volatile private var serverSocket: ServerSocket? = null
 
@@ -47,10 +43,6 @@ object LocalStreamServer {
         switchTo(fileId)
         return "http://127.0.0.1:${socket.localPort}/video/$fileId"
     }
-
-    /** True when no player is connected and nothing was served for [millis]. */
-    fun isIdleFor(millis: Long): Boolean =
-        activeConnections.get() == 0 && System.currentTimeMillis() - lastActivityAt > millis
 
     private fun start(): ServerSocket {
         val socket = ServerSocket(0, 8, InetAddress.getByName("127.0.0.1"))
@@ -79,17 +71,6 @@ object LocalStreamServer {
     }
 
     private fun handle(connection: Socket) {
-        activeConnections.incrementAndGet()
-        lastActivityAt = System.currentTimeMillis()
-        try {
-            serve(connection)
-        } finally {
-            activeConnections.decrementAndGet()
-            lastActivityAt = System.currentTimeMillis()
-        }
-    }
-
-    private fun serve(connection: Socket) {
         connection.use { socket ->
             try {
                 socket.soTimeout = 30_000
@@ -183,7 +164,6 @@ object LocalStreamServer {
                 out.write(buffer, 0, read)
                 position += read
                 lastProgressAt = System.currentTimeMillis()
-                lastActivityAt = lastProgressAt
             }
         } finally {
             reader?.close()

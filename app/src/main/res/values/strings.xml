@@ -43,6 +43,14 @@
     <string name="account_description">Account: %1$s</string>
     <string name="sign_out_title">Sign out of Telegram?</string>
     <string name="sign_out_cancel">Cancel</string>
+    <string name="player_pause">Pause</string>
+    <string name="player_play">Play</string>
+    <string name="player_back_10">−10 s</string>
+    <string name="player_forward_10">+10 s</string>
+    <string name="player_episodes">Episodes</string>
+    <string name="player_next">Next episode</string>
+    <string name="player_episode">Episode %1$d</string>
+    <string name="player_remaining">−%1$s</string>
+    <string name="player_error">This video couldn\'t be played. Press Back to return.</string>
     <string name="library_press_back_to_exit">Press back again to exit</string>
-    <string name="streaming_notification_title">Halqa is streaming a video</string>
 </resources>

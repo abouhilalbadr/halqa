@@ -98,6 +98,8 @@ dependencies {
     implementation(project(":leanback-1.0.0"))
     implementation(libs.glide)
     implementation(libs.zxing.core)
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.ui)
 
 
 }

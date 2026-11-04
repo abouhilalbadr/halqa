@@ -1,54 +1,60 @@
 package com.saiesh.tele.presentation.library
 
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.util.Log
-import android.widget.Toast
-import com.saiesh.tele.core.stream.LocalStreamServer
-import com.saiesh.tele.core.stream.StreamKeepAliveService
+import com.saiesh.tele.R
+import com.saiesh.tele.domain.model.Episode
+import com.saiesh.tele.domain.model.EpisodeVariant
 import com.saiesh.tele.domain.model.MediaItem
+import com.saiesh.tele.domain.model.PlaybackItem
+import com.saiesh.tele.domain.model.Series
+import com.saiesh.tele.presentation.player.PlayerActivity
 
-/** Streams a Telegram video through [LocalStreamServer] into EZV Player, or any video player if EZV is missing. */
+/** Opens Telegram videos in Halqa's built-in player. */
 object VideoPlayer {
-    private const val PLAYER_PACKAGE = "com.player.easy"
-
+    /** Plays one video on its own. */
     fun play(
         context: Context,
         item: MediaItem,
         title: String,
     ) {
-        val fileId = item.fileId ?: return
-        val url = LocalStreamServer.urlFor(fileId)
-        val intent =
-            Intent(Intent.ACTION_VIEW)
-                .setDataAndType(Uri.parse(url), "video/*")
-                .putExtra(Intent.EXTRA_TITLE, title)
-                // EZV Player closes an http link unless it is flagged as a network stream and
-                // carries the link as "path" plus a title as "anime_title". A "title" extra would
-                // make EZV expect an episode quality list, so it is left out.
-                .putExtra("from_network", true)
-                .putExtra("anime_title", title)
-                .putExtra("path", url)
-        if (isInstalled(context, PLAYER_PACKAGE)) intent.setPackage(PLAYER_PACKAGE)
-        try {
-            StreamKeepAliveService.start(context)
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            Log.e("Tele", "Failed to launch video player", e)
-            Toast.makeText(context, "No video player found", Toast.LENGTH_LONG).show()
-        }
+        PlayerActivity.start(context, listOf(playbackItem(item, title, subtitle = "", label = "1")), 0)
     }
 
-    private fun isInstalled(
+    /**
+     * Plays [chosen] and queues the rest of [series] in episode order, so "Next episode" and the
+     * episode picker work. Other episodes play in the same quality when they have it, else the best.
+     */
+    fun playEpisode(
         context: Context,
-        packageName: String,
-    ): Boolean =
-        try {
-            context.packageManager.getPackageInfo(packageName, 0)
-            true
-        } catch (_: PackageManager.NameNotFoundException) {
-            false
-        }
+        series: Series,
+        episode: Episode,
+        chosen: EpisodeVariant,
+    ) {
+        val ordered = series.episodes.sortedWith(compareBy({ it.number == null }, { it.number }, { it.latestDate }))
+        val queue =
+            ordered.mapIndexed { i, ep ->
+                val variant = if (ep.key == episode.key) chosen else ep.variants.firstOrNull { it.quality == chosen.quality } ?: ep.variants.first()
+                val name = ep.number?.let { context.getString(R.string.player_episode, it) } ?: ep.title.ifEmpty { null }
+                playbackItem(
+                    variant.item,
+                    title = series.name,
+                    subtitle = listOfNotNull(name, variant.quality).joinToString(" · "),
+                    label = ep.number?.toString() ?: (i + 1).toString(),
+                )
+            }
+        PlayerActivity.start(context, queue, ordered.indexOfFirst { it.key == episode.key }.coerceAtLeast(0))
+    }
+
+    private fun playbackItem(
+        item: MediaItem,
+        title: String,
+        subtitle: String,
+        label: String,
+    ) = PlaybackItem(
+        key = "tg:${item.chatId}:${item.messageId}",
+        title = title,
+        subtitle = subtitle,
+        episodeLabel = label,
+        telegramFileId = item.fileId,
+    )
 }
